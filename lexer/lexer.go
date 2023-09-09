@@ -23,7 +23,16 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		tok = newToken(token.ASSIGN, l.ch)
+		// Check if the next character is an equal sign
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			// If so, we have an equality operator
+			tok = token.Token{Type: token.EQ, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.ASSIGN, l.ch)
+		}
+
 	case '+':
 		tok = newToken(token.PLUS, l.ch)
 	case '(':
@@ -36,6 +45,27 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.RBRACE, l.ch)
 	case ',':
 		tok = newToken(token.COMMA, l.ch)
+	case '!':
+		// Check if the next character is an equal sign
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			// If so, we have a not-equal operator
+			tok = token.Token{Type: token.NOT_EQ, Literal: string(ch) + string(l.ch)}
+		} else {
+			tok = newToken(token.BANG, l.ch)
+		}
+		tok = newToken(token.BANG, l.ch)
+	case '-':
+		tok = newToken(token.MINUS, l.ch)
+	case '/':
+		tok = newToken(token.SLASH, l.ch)
+	case '*':
+		tok = newToken(token.ASTERISK, l.ch)
+	case '<':
+		tok = newToken(token.LT, l.ch)
+	case '>':
+		tok = newToken(token.GT, l.ch)
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
 	case 0:
@@ -91,6 +121,16 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
+// peekChar returns the next character in the input without advancing the lexer's position.
+func (l *Lexer) peekChar() byte {
+	if l.readPosition >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.readPosition]
+	}
+}
+
+// readChar advances the lexer's position and reads the next character in the input.
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0

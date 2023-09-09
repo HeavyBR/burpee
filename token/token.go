@@ -9,8 +9,17 @@ const (
 	INT   = "INT"   // 1, 2, 3, 4...
 
 	// Operators
-	ASSIGN = "="
-	PLUS   = "+"
+	ASSIGN   = "="
+	PLUS     = "+"
+	BANG     = "!"
+	MINUS    = "-"
+	SLASH    = "/"
+	ASTERISK = "*"
+
+	LT     = "<"
+	GT     = ">"
+	EQ     = "=="
+	NOT_EQ = "!="
 
 	// Delimiters
 	COMMA     = ","
@@ -24,11 +33,21 @@ const (
 	// Keywords
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
+	IF       = "IF"
+	ELSE     = "ELSE"
+	RETURN   = "RETURN"
+	FALSE    = "FALSE"
+	TRUE     = "TRUE"
 )
 
 var keywords = map[string]Type{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":     FUNCTION,
+	"let":    LET,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
+	"false":  FALSE,
+	"true":   TRUE,
 }
 
 type Type string
