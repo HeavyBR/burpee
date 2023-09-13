@@ -18,7 +18,7 @@ func New(input string) *Lexer {
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
-	// Skip whitespace
+	// Skip space
 	l.skipWhitespace()
 
 	switch l.ch {
