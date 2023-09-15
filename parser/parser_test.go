@@ -16,6 +16,8 @@ func TestLetStatements(t *testing.T) {
 		let x = 5;
      	let y = 10;
 		let foobar = 838383;
+
+		let err - 123;
     `
 
 	l := lexer.New(input)
@@ -23,6 +25,7 @@ func TestLetStatements(t *testing.T) {
 
 	program := p.ParseProgram()
 	assert.NotNil(t, program)
+	require.Len(t, p.Errors(), 0)
 
 	// We have three let statements in the input
 	assert.Len(t, program.Statements, 3)
