@@ -71,48 +71,6 @@ func (p *Parser) parseStatement() ast.Statement {
 	}
 }
 
-func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
-	stmt := &ast.ReturnStatement{
-		Token: p.curToken,
-	}
-
-	p.nextToken()
-
-	// TODO: We're skipping the expressions until we encount
-	// a semicolon
-	for !p.curTokenIs(token.SEMICOLON) {
-		p.nextToken()
-	}
-
-	return stmt
-}
-
-func (p *Parser) parseLetStatement() *ast.LetStatement {
-	stmt := &ast.LetStatement{Token: p.curToken}
-
-	// After a let we MUST have an identifier
-	if !p.expectPeek(token.IDENT) {
-		return nil
-	}
-
-	stmt.Name = &ast.Identifier{
-		Token: p.curToken,
-		Value: p.curToken.Literal,
-	}
-
-	// the next peek should be an assign, because after an identifier we should have an assignment
-	if !p.expectPeek(token.ASSIGN) {
-		return nil
-	}
-
-	// TODO: We're skipping the expressions until we encounter a semicolon
-	for !p.curTokenIs(token.SEMICOLON) {
-		p.nextToken()
-	}
-
-	return stmt
-}
-
 func (p *Parser) curTokenIs(t token.Type) bool {
 	return p.curToken.Type == t
 }
